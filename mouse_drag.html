@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mouse drag</title>
+  <style>
+    canvas{
+      border: 1px black solid
+    }
+  </style>
+
+</head>
+
+<body>
+<canvas id="canvas" height="500" width="500">
+</canvas>
+
+<script>
+  let canvas = document.querySelector("#canvas")
+  let context = canvas.getContext('2d')
+
+  canvas.addEventListener('mousemove', function (){
+    let x = event.offsetX
+    let y = event.offsetY
+
+    let size = 20
+    context.beginPath()
+    context.arc(x-(size/2), y-(size/2), 3, 0, 2 * Math.PI)
+    context.strokeStyle = 'blue'
+    context.lineWidth = 6
+    context.stroke()
+
+    //TODO More to add, follow lab
+  //context.fillRect(x-(size/2), y-(size/2), size, size)
+
+    //https://javascript.info/mouse-drag-and-drop
+    //refer link for mouse events. mousemove, mouseout, mousein..
+  })
+</script>
+</body>
+
+
+</html>

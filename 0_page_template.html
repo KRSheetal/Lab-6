@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+      canvas {
+        border: 1px mediumvioletred solid;
+      }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" height="500" width="500">
+
+  </canvas>
+
+  <script>
+    let canvas = document.querySelector('#canvas')
+    let context = canvas.getContext('2d')
+
+   //  context.fillStyle = 'purple'
+   //  context.font = '50px courier'
+   // context.fillText('Hello World', 50, 50)
+   //
+   //  context.strokeStyle ='green'
+   //  context.strokeText('This is some more text', 2,200)
+
+    // CIRCLE
+   context.beginPath()
+    context.arc(400, 333, 75, 0, 2 * Math.PI) // example 6.3
+    //context.strokeStyle = "darkblue"
+   // context.lineWidth = 15
+    context.stroke()
+
+
+    // TRIANGLE/LINE
+    // context.beginPath()
+    // context.moveTo(30,30)
+    // context.lineTo(190, 70)
+    // context.lineTo(80, 300)
+    // context.lineTo(10,40)
+    // context.lineTo(130, 40)
+    // context.lineWidth=12
+    // context.strokeStyle = 'red'
+    // context.stroke()
+    //
+    // context.lineWidth = 5
+    // context.strokeStyle ='yellow'
+    // context.beginPath()
+    // context.moveTo(250, 200)
+    // context.lineTo(250, 300)
+    // context.stroke()
+
+
+
+    // //can you draw some example rectangle?
+    // context.fillRect(20, 30, 50, 100) //solid rectangle
+    // context.strokeRect(200, 300, 100, 150 ) //border only rectangle
+    //
+    // context.fillStyle = '220,233,red'
+    // context.fillRect(300, 50, 100, 300)
+    // context.strokeStyle = 'green'
+    // context.lineWidth =20
+    // context.strokeRect(300, 350, 100, 50)
+    //
+    // context.fillStyle ='yellow'
+    // context.fillRect(220, 100, 150, 150)
+    // context.strokeStyle='blue'
+    // context.lineWidth = 2
+    // context.strokeRect( 54, 200, 50, 32)
+  </script>
+
+</body>
+</html>
