@@ -1,40 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Mouse drag</title>
+  <title>Mouse Events</title>
+  <h1>Draw with your mouse</h1>
+
   <style>
     canvas{
       border: 1px black solid
     }
+
+h1 {
+  color: darkgreen;
+  font-size: xxx-large;
+  font-family: "Bauhaus 93";
+}
+
+body{
+  background: pink;
+}
+
+.form-label {
+  color: blueviolet;
+  font-family: "Bauhaus 93";
+}
   </style>
 
 </head>
 
 <body>
-<canvas id="canvas" height="500" width="500">
+
+<div class="form-group row">
+  <label class="form-label">Color</label>
+  <input id="color" class="form-control" type="color">
+</div>
+
+<div class="form-group row">
+  <label class="form-label">Size</label>
+  <input id="radius" class="form-control" type="range">
+</div>
+
+<div class="form-group row">
+  <label class="form-label">Shape</label>
+  <select required name="Shape" id="shapes">
+    <option>Circle</option>
+    <option>Rectangle</option>
+    <option>Square</option>
+  </select><br>
+</div>
+
+<div class="form-group row">
+  <button id="clear-canvas">Clear</button>
+</div>
+<br>
+<canvas id="canvas" height="400" width="400">
 </canvas>
 
 <script>
   let canvas = document.querySelector("#canvas")
   let context = canvas.getContext('2d')
+  let colorInput = document.querySelector("#color")
+  let radiusInput = document.querySelector("#radius")
+  let shapeInput = document.querySelector("#shapes")
+  let clearButton = document.querySelector("#clear-canvas")
 
-  canvas.addEventListener('mousemove', function (){
-    let x = event.offsetX
-    let y = event.offsetY
 
-    let size = 20
-    context.beginPath()
-    context.arc(x-(size/2), y-(size/2), 3, 0, 2 * Math.PI)
-    context.strokeStyle = 'blue'
-    context.lineWidth = 6
-    context.stroke()
+  // Keep track of whether the mouse button has been pressed down or not.
+  // Think of this as whether the user is drawing or not, is their brush on the canvas?
+  let mousedown = false
 
-    //TODO More to add, follow lab
-  //context.fillRect(x-(size/2), y-(size/2), size, size)
-
-    //https://javascript.info/mouse-drag-and-drop
-    //refer link for mouse events. mousemove, mouseout, mousein..
+  canvas.addEventListener('mousedown', function() {
+    mousedown = true
   })
+
+  canvas.addEventListener('mouseup', function() {
+    mousedown = false
+  })
+
+  // If mouse leaves the canvas then stop drawing
+  canvas.addEventListener('mouseout', function() {
+    mousedown = false
+  })
+
+  //clear the canvas when the "clear" button is clicked
+  clearButton.addEventListener('click', function () {
+    context.clearRect(0,0,canvas.width,canvas.height)
+    //https://www.delftstack.com/howto/javascript/clear-canvas-javascript/#:~:text=We%20can%20clear%20canvas%20by%20using%20JavaScript%E2%80%99s%20clearRect,context%20object%20that%20creates%20graphics%20on%20the%20canvas.
+  })
+
+  canvas.addEventListener('mousemove', function() {
+
+    // If the mouse button is not pressed down, do not draw.
+    if (!mousedown) { return }
+
+    // event is a built-in variable, contains the event that triggered this function
+    // get the x, y location of the event
+    let x = event.offsetX
+    let y = event.offsetY   //offsetX, offsetY, may not work in older browsers
+
+    //Draw a shape selected from the drop box, centered under the mouse click
+    //x, y is the top left corner, so shift up and left by 5 to center it under the mouse.
+   // context.fillRect(x-5, y-5, 10, 10)
+
+//when the shape is selected
+    if (shapeInput.value === "Circle") { //for cicle
+        context.beginPath() //begin from
+        context.arc(x, y, radiusInput.value, 0, 2 * Math.PI) //circle's shape and look
+    } else if (shapeInput.value === "Rectangle") { //for rectangle
+      context.fillRect(x-(radiusInput.value), y-(radiusInput.value/2), radiusInput.value * 2, radiusInput.value) //size and mouse point position
+    } else { //for square draw
+        context.fillRect(x-(radiusInput.value/2), y-(radiusInput.value/2), radiusInput.value, radiusInput.value) //size and pointer
+    }
+
+      context.fillStyle = colorInput.value //fill the shape with the color selected
+      context.fill() //fill the shape
+  })
+
+  //   //https://javascript.info/mouse-drag-and-drop
+  //   //refer link for mouse events. mousemove, mouseout, mousein..
+  // })
 </script>
 </body>
 

@@ -1,0 +1,11 @@
+#usa-map {
+    width: 400px;
+    height: 300px;
+    border: 2px darkgreen solid;
+}
+
+#longest-bridge-chart{
+    width: 400px;
+    height: 300px;
+    border: 2px deeppink solid;
+}
