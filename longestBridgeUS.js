@@ -16,59 +16,77 @@ bridges =  [
     {"name": "George Washington Bridge","span":1067,"span_text": "1067.0m","city": "New York and New Jersey", "location": [40.8517, -73.9527] },
     {"name": "Tacoma Narrows Bridge","span":853.44,"span_text": "853.44m","city": "Tacoma and Kitsap", "location": [47.2690, -122.5517] }
 ]
-// var iconBridge = "https://www.flaticon.com/free-icon/bridge_183412?k=1663994995607&sign-up=email"
-// // var iconMarker = new map.Marker(iconBridge, {icon:iconBridge})
-// const icons= {icon: "bridge.png"}
 
-let spanArray = []
-let bridgesNameArray = []
+let spanArray = [] //an array to store spans
+let bridgesNameArray = [] //an array to store names of the bridge
+//prepare an array
 bridges.forEach(function (bridgesmap){
-    //draw a marker for this bridges map
-    let markerText = `${bridgesmap.name}<br>${bridgesmap.city}<br>${bridgesmap.span_text}`
-    L.marker(bridgesmap.location).bindPopup(markerText).addTo(map)
     spanArray.push(bridgesmap.span)
     bridgesNameArray.push(bridgesmap.name)
 })
-// let longestSpan = Math.max(...spanArray)
-//
-// let longestColor = L.span(longestSpan, {
-//     color: 'red'
-// })
-//     .bindPopup('USA map')
-//     .addTo(map)
 
-//TODO Part 2a (Optional for extra credit +3 points)
-//
 // Instead of the default marker, draw a bridge icon at the locations. You'll find a tutorial at Leaflet's website. Example icon: https://www.flaticon.com/free-icon/bridge_183412.
+//var iconUrl = "https://www.flaticon.com/free-icon/bridge_183412?k=1663994995607&sign-up=email" //icon's url
+
+//prepare an icon to adjust to map
+let bridgeIcon = L.icon({
+    iconUrl: 'bridge.png', //the icon png chosen
+    iconSize: [25, 25], //icon size on the map
+    // iconAnchor:[-12, -12],
+    popupAnchor: [-3, -76] //the position of the anchor on the map
+})
+
+//var longestBridgeIconUrl = "https://www.flaticon.com/free-icon/golden-gate-bridge_774232" // longest icon's url
 // Examine your bridge data array and use JavaScript to figure out which bridge is longest. Draw the marker for this bridge in a different color. You can change the colors of an icon if you register for a Flaticon account.
 
-let usaMapCircle = L.circle(usaMapCoordinates, {
-    color: 'green',
-    radius: 3000000,
-    fillOpacity: 0.25,
+let longestBridgeIcon = L.icon({
+    iconUrl: 'longestBridge.png', //the longest bridge icon
+    iconSize: [30, 30], //icon size on the map
+    // iconAnchor:[-12, -12],
+    popupAnchor: [-3, -76]//the position of the anchor on the map
 })
-    .bindPopup('USA map')
-    .addTo(map)
+
+let longestSpan = Math.max(...spanArray)// the longest bridge
+ bridges.forEach(function (longestBridgeMap){//the bridge icon to each bridge marker
+     //draw a marker for this bridges map
+     let markerTextLongest = `${longestBridgeMap.name}<br>${longestBridgeMap.city}<br>${longestBridgeMap.span_text}`//shows when marker is clicked
+
+     if (longestSpan === longestBridgeMap.span) { //if this is the longest, show unique icon
+         L.marker(longestBridgeMap.location, {icon: longestBridgeIcon}).bindPopup(markerTextLongest).addTo(map)  //an icon is seen
+     } else { //if not the longest show the other icon
+         L.marker(longestBridgeMap.location, {icon: bridgeIcon}).bindPopup(markerTextLongest).addTo(map) //an icon is seen
+     }
+ })
+
+//show the location covered in uniquely
+let usaMapCircle = L.circle(usaMapCoordinates, {
+    color: 'green', //color of the location
+    radius: 3000000, //radius covering
+    fillOpacity: 0.25, //makes it opac
+})
+    .bindPopup('USA map') //labels this map area
+    .addTo(map) //add this is map
 
 //Chart canvas
-let canvas = document.querySelector('#longest-bridge-chart')
-let context = canvas.getContext('2d')
+//script for bar chart
+let canvas = document.querySelector('#longest-bridge-chart')//prepare canvas for chart
+let context = canvas.getContext('2d') //set the look
 
 let bridgeChart = new Chart(context, {
     type: 'bar',
     data: {
-        labels: bridgesNameArray,
+        labels: bridgesNameArray, //labels the bars with name
         datasets: [{
-            label: 'longest span',
-            data: spanArray,
-            backgroundColor: ['blue','cyan','yellow','green']
+            label: 'longest bridges', //label of the bar
+            data: spanArray, //draw chart according to span
+            backgroundColor: ['blue','cyan','yellow','green','red'] //color of the bars
         }]
     },
     options:{
         scales:{
             yAxes:[{
                 ticks:{
-                    beginAtZero: true
+                    beginAtZero: true //shows the chart scale from zero
                 }
             }]
         }
